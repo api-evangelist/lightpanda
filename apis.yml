@@ -1,0 +1,109 @@
+aid: lightpanda
+url: https://raw.githubusercontent.com/api-evangelist/lightpanda/refs/heads/main/apis.yml
+name: Lightpanda
+kind: company
+description: Lightpanda is an open-source headless browser built from scratch in Zig
+  for AI agents and large-scale automation. It is not a REST API; its programmable
+  interface is the Chrome DevTools Protocol (CDP) exposed over a WebSocket endpoint,
+  making it a drop-in target for Puppeteer, Playwright, and chromedp clients. It ships
+  as an open-source binary/CLI (AGPL-3.0) and as Lightpanda Cloud, a managed CDP
+  browser service.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Headless Browser
+- Browser Automation
+- CDP
+- WebSocket
+- AI Agents
+- Web Scraping
+created: '2026-06-20'
+modified: '2026-06-20'
+specificationVersion: '0.19'
+apis:
+- aid: lightpanda:lightpanda-cdp-websocket-interface
+  name: Lightpanda CDP WebSocket Interface
+  tags:
+  - CDP
+  - WebSocket
+  - Browser Automation
+  - Puppeteer
+  - Playwright
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://lightpanda.io/docs
+  baseURL: ws://127.0.0.1:9222
+  properties:
+  - url: https://lightpanda.io/docs
+    type: Documentation
+  - url: https://github.com/lightpanda-io/browser
+    type: GitHub
+  - url: asyncapi/lightpanda-asyncapi.yml
+    type: AsyncAPI
+  - url: openapi/lightpanda-openapi.yml
+    type: OpenAPI
+  description: Lightpanda's primary programmable interface. The browser runs as a
+    CDP server (`lightpanda serve`) and exposes the Chrome DevTools Protocol over a
+    WebSocket endpoint (default `ws://127.0.0.1:9222`). CDP is a bidirectional
+    JSON-RPC wire protocol over WebSocket - not a REST API. Existing Puppeteer,
+    Playwright, and chromedp scripts connect by pointing `browserWSEndpoint` /
+    `connectOverCDP` at this endpoint instead of Chrome.
+- aid: lightpanda:lightpanda-cloud
+  name: Lightpanda Cloud
+  tags:
+  - Cloud
+  - Managed Browser
+  - CDP
+  - WebSocket
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://lightpanda.io/docs/cloud-offer/tools/cdp
+  baseURL: wss://cloud.lightpanda.io/ws
+  properties:
+  - url: https://lightpanda.io/docs/cloud-offer/tools/cdp
+    type: Documentation
+  - url: https://lightpanda.io
+    type: Website
+  - url: asyncapi/lightpanda-asyncapi.yml
+    type: AsyncAPI
+  description: Managed, hosted CDP browser endpoints reached over secure WebSocket
+    (e.g. `wss://euwest.cloud.lightpanda.io/ws`, `wss://uswest.cloud.lightpanda.io/ws`).
+    Authentication is a `token` query-string parameter; query parameters such as
+    `browser=lightpanda|chrome` and `proxy` select the browser engine and egress.
+    Clients connect with the same Puppeteer/Playwright/chromedp CDP tooling. Cloud
+    access is request-based; usage pricing is not publicly reconciled.
+- aid: lightpanda:lightpanda-cli-binary
+  name: Lightpanda CLI / Binary
+  tags:
+  - CLI
+  - Binary
+  - Fetch
+  - Agent
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://github.com/lightpanda-io/browser
+  baseURL: https://github.com/lightpanda-io/browser
+  properties:
+  - url: https://lightpanda.io/docs
+    type: Documentation
+  - url: https://github.com/lightpanda-io/browser
+    type: GitHub
+  description: The open-source command-line binary (AGPL-3.0, written in Zig).
+    `lightpanda serve` starts the CDP-over-WebSocket server; `lightpanda fetch`
+    retrieves and dumps a URL as HTML or markdown; `lightpanda agent` drives the
+    browser with LLM instructions. Distributed via one-line installer, Docker
+    images, and nightly Linux/macOS binaries.
+common:
+- type: GitHubOrganization
+  url: https://github.com/lightpanda-io
+- type: LinkedIn
+  url: https://www.linkedin.com/company/lightpanda
+- type: Website
+  url: https://lightpanda.io
+- type: Documentation
+  url: https://lightpanda.io/docs
+- type: Plans
+  url: plans/lightpanda-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/lightpanda-rate-limits.yml
+- type: FinOps
+  url: finops/lightpanda-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,79 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Lightpanda
+providerId: lightpanda
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Headless Browser
+- Browser Automation
+- CDP
+- WebSocket
+- AI Agents
+- Plans
+description: >-
+  Lightpanda ships in two forms. The core headless browser is open source under
+  AGPL-3.0 and is free to download, self-host, and run (binary, Docker, or
+  nightly builds) - the local CDP-over-WebSocket server (`lightpanda serve`)
+  carries no usage fee. Lightpanda Cloud is a managed CDP browser service reached
+  over secure WebSocket; access is request-based and usage-metered, but public
+  pricing was not published as of this artifact, so Cloud pricing is not
+  reconciled here.
+notes: >-
+  Open-source self-hosting is free under AGPL-3.0. Lightpanda Cloud pricing is
+  not publicly documented; request access and confirm rates on reconciliation.
+sources:
+- https://lightpanda.io
+- https://github.com/lightpanda-io/browser
+- https://lightpanda.io/docs/cloud-offer/tools/cdp
+plans:
+- id: lightpanda-open-source
+  name: Open Source (Self-Hosted)
+  type: free
+  description: >-
+    The Lightpanda headless browser, free and open source under AGPL-3.0.
+    Self-host the CDP-over-WebSocket server (`lightpanda serve`) and connect
+    Puppeteer / Playwright / chromedp. No usage fees; you provide the compute.
+  entries:
+  - label: Open Source Binary (AGPL-3.0)
+    name: open_source
+    type: free
+    metric: instances
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.00 (AGPL-3.0, self-hosted compute costs only)
+    userMultiplied: false
+  elements:
+  - name: CDP WebSocket Interface
+  - name: lightpanda serve
+  - name: lightpanda fetch
+  - name: lightpanda agent
+- id: lightpanda-cloud
+  name: Lightpanda Cloud
+  type: usage
+  description: >-
+    Managed CDP browser endpoints over secure WebSocket
+    (e.g. wss://euwest.cloud.lightpanda.io/ws). Request-based access with
+    usage-metered billing; public pricing not yet documented.
+  entries:
+  - label: Cloud Browser Usage
+    name: cloud_usage
+    type: usage
+    metric: usage
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: not publicly documented - request access (unreconciled)
+    userMultiplied: false
+  elements:
+  - name: Managed CDP WebSocket Endpoints
+  - name: Browser Engine Selection (lightpanda | chrome)
+  - name: Proxy / Egress Configuration
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

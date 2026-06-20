@@ -1,0 +1,59 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Lightpanda
+providerId: lightpanda
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Headless Browser
+- Browser Automation
+- CDP
+- WebSocket
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Lightpanda's interface is the Chrome DevTools Protocol over WebSocket rather
+  than a metered REST API, so there are no documented per-request RPM/TPM
+  quotas. For the open-source self-hosted server (`lightpanda serve`), practical
+  limits are bounded by host compute, memory, and the number of concurrent
+  WebSocket/CDP sessions and browser targets you run. For Lightpanda Cloud,
+  concurrency and usage are governed by the (request-based) account and token;
+  specific published limits were not available and are not reconciled in this
+  artifact.
+notes: >-
+  Self-hosted limits are operational (CPU/RAM/concurrency), not provider-imposed.
+  Confirm Lightpanda Cloud concurrency and session limits with the provider on
+  reconciliation.
+sources:
+- https://lightpanda.io/docs
+- https://github.com/lightpanda-io/browser
+- https://lightpanda.io/docs/cloud-offer/tools/cdp
+responseCodes:
+  throttled: see provider documentation
+limits:
+- name: Concurrent CDP Sessions (Self-Hosted)
+  scope: instance
+  metric: connections
+  limit: bounded by host compute
+  notes: Open-source server concurrency is limited by CPU/RAM, not a provider quota.
+- name: Concurrent Browsers / Targets (Cloud)
+  scope: account
+  metric: sessions
+  limit: see provider documentation
+  notes: Governed by Lightpanda Cloud account/token; not publicly documented.
+- name: Cloud Usage
+  scope: account
+  metric: usage
+  limit: see provider documentation
+  notes: Request-based access; published usage limits not available at artifact time.
+policies:
+- name: Self-Hosted Scaling
+  description: Scale horizontally by running multiple `lightpanda serve` instances; concurrency is bounded by your own infrastructure.
+- name: Backoff Strategy
+  description: CDP clients (Puppeteer/Playwright/chromedp) should handle dropped WebSocket connections with reconnect and backoff.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

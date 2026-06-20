@@ -1,0 +1,84 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Lightpanda
+providerId: lightpanda
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- Headless Browser
+- Browser Automation
+- CDP
+- WebSocket
+- AI Agents
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Lightpanda spend. The open-source headless browser (AGPL-3.0)
+  has no licensing or usage fee; the only cost of the self-hosted CDP-over-
+  WebSocket server is the underlying compute (CPU/RAM/network) you run it on -
+  notably lower than Chromium given Lightpanda's ~9-16x smaller memory footprint
+  and faster execution. Lightpanda Cloud adds a managed, usage-metered cost, but
+  public pricing was not documented at artifact time, so cloud cost meters are
+  not reconciled.
+notes: >-
+  Open-source self-hosting cost is infrastructure-only. Confirm Lightpanda Cloud
+  billing units and rates with the provider during reconciliation.
+sources:
+- https://lightpanda.io
+- https://github.com/lightpanda-io/browser
+- https://lightpanda.io/docs/cloud-offer/tools/cdp
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Lightpanda
+serviceCategory: Web and Application Services
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: Lightpanda
+  ServiceCategory: Web and Application Services
+  ProviderName: Lightpanda
+  PublisherName: Lightpanda
+  InvoiceIssuerName: Lightpanda
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: self_hosted_compute
+  description: Compute (CPU/RAM/network) for self-hosting the open-source CDP-over-WebSocket server. No Lightpanda fee; infrastructure cost only.
+  unit: compute-hours
+  aggregation: sum
+  dimensions:
+  - account
+  - instance
+- name: cloud_usage
+  description: Lightpanda Cloud managed browser usage. Billing unit and rate not publicly documented; unreconciled.
+  unit: usage
+  aggregation: sum
+  dimensions:
+  - account
+  - token
+principles:
+- name: Visibility
+  description: Track self-hosted compute for `lightpanda serve` fleets; for Cloud, monitor token-scoped usage exports once published.
+- name: Allocation
+  description: Tag instances and Cloud tokens per workload/team to map browser automation cost to internal cost centers.
+- name: Optimization
+  description: Prefer self-hosted open-source Lightpanda over Chromium for lower memory/compute; right-size instances and pool CDP sessions; use Cloud only where managed scale is needed.
+- name: Accountability
+  description: Assign owners per automation workload; review compute and Cloud usage monthly against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,248 @@
+asyncapi: '2.6.0'
+id: 'urn:io:lightpanda:cdp:websocket'
+info:
+  title: Lightpanda CDP over WebSocket
+  version: '1.0.0'
+  description: |
+    AsyncAPI 2.6 description of Lightpanda's programmable interface.
+
+    Lightpanda is a headless browser; it does **not** expose a REST API. Its
+    interface is the **Chrome DevTools Protocol (CDP)**, a bidirectional
+    JSON-RPC 2.0-style wire protocol carried over a single **WebSocket**
+    connection. This is the same protocol Chrome/Chromium expose for remote
+    automation, which is why existing **Puppeteer**, **Playwright**, and
+    **chromedp** clients work against Lightpanda unchanged - they simply connect
+    to Lightpanda's WebSocket endpoint instead of Chrome's.
+
+    Two deployment surfaces share this protocol:
+
+      - **Local / self-hosted** (open source, AGPL-3.0): start the server with
+        `lightpanda serve --host 127.0.0.1 --port 9222`. The CDP endpoint is
+        `ws://127.0.0.1:9222`. Connect Puppeteer with
+        `puppeteer.connect({ browserWSEndpoint: "ws://127.0.0.1:9222" })`, or
+        Playwright/chromedp via `connectOverCDP`.
+
+      - **Lightpanda Cloud** (managed): regional secure-WebSocket endpoints such
+        as `wss://euwest.cloud.lightpanda.io/ws` and
+        `wss://uswest.cloud.lightpanda.io/ws`. Authentication is a `token`
+        query-string parameter (`?token=YOUR_TOKEN`). Optional query parameters
+        include `browser=lightpanda|chrome` to choose the engine and `proxy` to
+        configure egress.
+
+    On the wire, the client sends CDP **command** messages (each an object with
+    a numeric `id`, a `method` such as `Page.navigate` or `Runtime.evaluate`,
+    and a `params` object) and the server returns matching command **results**
+    (keyed by the same `id`) plus asynchronous **events** (objects with a
+    `method` such as `Page.loadEventFired` and a `params` object, and no `id`).
+    Lightpanda implements a subset of CDP sufficient for Puppeteer/Playwright
+    automation.
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: Lightpanda Browser - AGPL-3.0
+    url: https://github.com/lightpanda-io/browser/blob/main/LICENSE
+  x-transport-notes:
+    transport: Chrome DevTools Protocol (CDP) over WebSocket
+    protocol: ws / wss
+    direction: bidirectional (commands client-to-server, results and events server-to-client)
+    messageEncoding: JSON (JSON-RPC style with numeric command ids)
+    localEndpoint: 'ws://127.0.0.1:9222 (lightpanda serve)'
+    cloudEndpoints:
+      - 'wss://euwest.cloud.lightpanda.io/ws?token=YOUR_TOKEN'
+      - 'wss://uswest.cloud.lightpanda.io/ws?token=YOUR_TOKEN'
+    cloudQueryParams:
+      - 'token (required, auth)'
+      - 'browser=lightpanda|chrome (engine selection)'
+      - 'proxy (egress configuration)'
+    notRest: true
+    clients:
+      - Puppeteer (browserWSEndpoint)
+      - Playwright (connectOverCDP)
+      - chromedp
+    source: https://lightpanda.io/docs
+defaultContentType: application/json
+servers:
+  local:
+    url: 127.0.0.1:9222
+    protocol: ws
+    description: |
+      Local Lightpanda CDP server started with
+      `lightpanda serve --host 127.0.0.1 --port 9222`. Clients open a single
+      WebSocket and speak CDP over it.
+  cloud:
+    url: cloud.lightpanda.io/ws
+    protocol: wss
+    description: |
+      Lightpanda Cloud managed CDP endpoint. Use a regional host
+      (e.g. euwest / uswest) and append `?token=YOUR_TOKEN`. Optional
+      `browser` and `proxy` query parameters select engine and egress.
+    security:
+      - tokenAuth: []
+channels:
+  /cdp:
+    description: |
+      The single CDP WebSocket channel. After the connection is established the
+      client publishes CDP command messages and subscribes to CDP result and
+      event messages over the same socket.
+    bindings:
+      ws:
+        bindingVersion: '0.1.0'
+        query:
+          type: object
+          properties:
+            token:
+              type: string
+              description: Lightpanda Cloud access token (cloud endpoints only).
+            browser:
+              type: string
+              enum:
+                - lightpanda
+                - chrome
+              description: Selects the browser engine on Lightpanda Cloud. Defaults to lightpanda.
+            proxy:
+              type: string
+              description: Optional egress/proxy selector on Lightpanda Cloud.
+    publish:
+      operationId: sendCdpCommand
+      summary: Send a CDP command to the browser.
+      description: |
+        The automation client (Puppeteer/Playwright/chromedp or a raw CDP
+        client) sends a CDP command - a JSON object with a numeric `id`, a
+        `method` (e.g. `Page.navigate`, `Runtime.evaluate`,
+        `Target.createTarget`), and a `params` object.
+      message:
+        $ref: '#/components/messages/CdpCommand'
+    subscribe:
+      operationId: receiveCdpMessages
+      summary: Receive CDP command results and asynchronous events.
+      description: |
+        The browser returns command results (objects carrying the same `id` as
+        the originating command) and asynchronous events (objects with a
+        `method` and `params`, and no `id`).
+      message:
+        oneOf:
+          - $ref: '#/components/messages/CdpResult'
+          - $ref: '#/components/messages/CdpEvent'
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      in: query
+      name: token
+      description: |
+        Lightpanda Cloud token passed as the `token` query-string parameter on
+        the WebSocket URL (`wss://<region>.cloud.lightpanda.io/ws?token=...`).
+        Not used for local self-hosted `lightpanda serve` endpoints.
+  messages:
+    CdpCommand:
+      name: CdpCommand
+      title: CDP command
+      summary: A Chrome DevTools Protocol command sent from client to browser.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CdpCommand'
+      examples:
+        - name: pageNavigate
+          summary: Navigate to a URL
+          payload:
+            id: 1
+            method: Page.navigate
+            params:
+              url: https://example.com
+        - name: runtimeEvaluate
+          summary: Evaluate JavaScript in the page
+          payload:
+            id: 2
+            method: Runtime.evaluate
+            params:
+              expression: document.title
+              returnByValue: true
+    CdpResult:
+      name: CdpResult
+      title: CDP command result
+      summary: A response to a previously sent CDP command, keyed by its id.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CdpResult'
+      examples:
+        - name: navigateResult
+          summary: Result of Page.navigate
+          payload:
+            id: 1
+            result:
+              frameId: 'FRAME-ABC123'
+              loaderId: 'LOADER-XYZ789'
+    CdpEvent:
+      name: CdpEvent
+      title: CDP event
+      summary: An asynchronous event emitted by the browser (no id).
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CdpEvent'
+      examples:
+        - name: loadEvent
+          summary: Page load fired
+          payload:
+            method: Page.loadEventFired
+            params:
+              timestamp: 123456.789
+  schemas:
+    CdpCommand:
+      type: object
+      description: A CDP command message (JSON-RPC style).
+      required:
+        - id
+        - method
+      properties:
+        id:
+          type: integer
+          description: Client-assigned monotonically increasing command id; the matching result echoes it.
+        method:
+          type: string
+          description: CDP method name, e.g. `Page.navigate`, `Runtime.evaluate`, `Target.createTarget`.
+        params:
+          type: object
+          description: Method-specific parameters.
+        sessionId:
+          type: string
+          description: Optional CDP session id when targeting a specific attached target/session.
+    CdpResult:
+      type: object
+      description: A CDP command result keyed by the originating command id.
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: Echoes the id of the command this result responds to.
+        result:
+          type: object
+          description: Method-specific result payload (present on success).
+        error:
+          type: object
+          description: Error object (present on failure).
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+        sessionId:
+          type: string
+          description: Optional CDP session id the result belongs to.
+    CdpEvent:
+      type: object
+      description: An asynchronous CDP event emitted by the browser.
+      required:
+        - method
+      properties:
+        method:
+          type: string
+          description: CDP event name, e.g. `Page.loadEventFired`, `Network.responseReceived`.
+        params:
+          type: object
+          description: Event-specific parameters.
+        sessionId:
+          type: string
+          description: Optional CDP session id the event belongs to.

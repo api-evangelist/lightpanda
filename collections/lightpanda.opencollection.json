@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Lightpanda",
+    "version": "1.0",
+    "description": "Lightpanda is an open-source headless browser for AI agents and automation. It is NOT a REST API - its interface is the Chrome DevTools Protocol (CDP) over a WebSocket connection, compatible with Puppeteer, Playwright, and chromedp. This collection documents the CDP/WebSocket connection endpoints; CDP itself is a bidirectional JSON-RPC protocol over WebSocket and is not modeled as HTTP requests. See asyncapi/lightpanda-asyncapi.yml for the accurate protocol model."
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CDP over WebSocket",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Local CDP WebSocket Endpoint (lightpanda serve)",
+            "type": "websocket"
+          },
+          "websocket": {
+            "url": "ws://127.0.0.1:9222"
+          },
+          "docs": "Local Lightpanda CDP server started with `lightpanda serve --host 127.0.0.1 --port 9222`. Connect Puppeteer with browserWSEndpoint, or Playwright/chromedp via connectOverCDP. CDP commands/results/events are exchanged as JSON over this single WebSocket."
+        },
+        {
+          "info": {
+            "name": "Lightpanda Cloud CDP WebSocket Endpoint",
+            "type": "websocket"
+          },
+          "websocket": {
+            "url": "wss://euwest.cloud.lightpanda.io/ws?token={{token}}"
+          },
+          "docs": "Lightpanda Cloud managed CDP endpoint over secure WebSocket. Use a regional host (euwest / uswest) and append ?token=YOUR_TOKEN. Optional query params: browser=lightpanda|chrome, proxy. Connect with the same Puppeteer/Playwright/chromedp CDP tooling."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,78 @@
+aid: lightpanda
+name: Lightpanda
+review:
+  question: Does Lightpanda expose a documented public WebSocket API?
+  answer: true
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Lightpanda's entire programmable interface is a WebSocket surface: the
+    Chrome DevTools Protocol (CDP) carried over a WebSocket connection. This is
+    in-scope for AsyncAPI modeling. An AsyncAPI 2.6 document was created at
+    asyncapi/lightpanda-asyncapi.yml describing the CDP-over-WebSocket channel
+    (commands client-to-server; results and events server-to-client) for both
+    the local self-hosted endpoint and Lightpanda Cloud.
+findings:
+  summary: |
+    Lightpanda is an open-source headless browser (written in Zig, AGPL-3.0)
+    built for AI agents and automation. It does NOT expose a REST API. Its
+    programmable interface is the Chrome DevTools Protocol (CDP), a
+    bidirectional JSON-RPC-style wire protocol spoken over a WebSocket
+    connection - the same protocol Chrome exposes for remote automation, which
+    is why Puppeteer, Playwright, and chromedp clients connect to Lightpanda
+    unchanged. Self-hosting via `lightpanda serve` exposes the CDP endpoint at
+    `ws://127.0.0.1:9222`. Lightpanda Cloud exposes managed regional CDP
+    endpoints over secure WebSocket (e.g. `wss://euwest.cloud.lightpanda.io/ws`,
+    `wss://uswest.cloud.lightpanda.io/ws`) authenticated with a `token` query
+    parameter, with optional `browser=lightpanda|chrome` and `proxy` query
+    parameters. No HTTP REST request/response API is documented; therefore the
+    OpenAPI document uses `paths: {}` and the WebSocket/CDP transport is modeled
+    in AsyncAPI.
+  transports:
+    - protocol: WebSocket
+      scheme: ws
+      baseURL: ws://127.0.0.1:9222
+      documented: true
+      note: Local self-hosted CDP server started with `lightpanda serve`. CDP over WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://cloud.lightpanda.io/ws
+      documented: true
+      note: Lightpanda Cloud managed CDP endpoints (regional hosts), auth via ?token=YOUR_TOKEN. CDP over WebSocket.
+    - protocol: CDP
+      scheme: json-rpc-over-websocket
+      documented: true
+      note: Chrome DevTools Protocol commands/results/events carried over the WebSocket; compatible with Puppeteer, Playwright, chromedp.
+    - protocol: REST
+      scheme: https
+      documented: false
+      note: Lightpanda does not expose a documented HTTP REST request/response API. No REST endpoints were fabricated.
+  endpointsConfirmedWebSocket:
+    - ws://127.0.0.1:9222
+    - wss://euwest.cloud.lightpanda.io/ws?token=YOUR_TOKEN
+    - wss://uswest.cloud.lightpanda.io/ws?token=YOUR_TOKEN
+  cliCommands:
+    - lightpanda serve --host 127.0.0.1 --port 9222
+    - lightpanda fetch <url>
+    - lightpanda agent
+sources:
+  - url: https://lightpanda.io
+    type: Website
+    note: Describes the headless browser, CDP/WebSocket interface, open source + cloud forms.
+  - url: https://github.com/lightpanda-io/browser
+    type: GitHub
+    note: AGPL-3.0; `lightpanda serve` exposes CDP at ws://127.0.0.1:9222; Puppeteer connects via browserWSEndpoint.
+  - url: https://lightpanda.io/docs/cloud-offer/tools/cdp
+    type: Documentation
+    note: Cloud CDP endpoints over wss with token query param and browser/proxy options.
+actions:
+  asyncapiPath: asyncapi/lightpanda-asyncapi.yml
+  openapiPath: openapi/lightpanda-openapi.yml
+  apisYmlUpdated: true
+  reason: |
+    The product's interface is CDP over WebSocket. An AsyncAPI 2.6 document
+    accurately models the WebSocket/CDP channel for both local and cloud
+    endpoints. The OpenAPI document intentionally uses `paths: {}` with a
+    description explaining the WebSocket/CDP transport, since no REST API
+    exists and no REST endpoints were fabricated.

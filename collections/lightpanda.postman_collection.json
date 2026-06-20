@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "Lightpanda",
+    "description": "Lightpanda is an open-source headless browser for AI agents and automation. It is NOT a REST API - its interface is the Chrome DevTools Protocol (CDP) over a WebSocket connection, compatible with Puppeteer, Playwright, and chromedp. This collection documents the CDP/WebSocket connection endpoints as Postman WebSocket requests; CDP itself is a bidirectional JSON-RPC protocol over WebSocket and is not modeled as HTTP requests. See asyncapi/lightpanda-asyncapi.yml for the accurate protocol model.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "token",
+      "value": "",
+      "description": "Lightpanda Cloud access token (cloud endpoints only)."
+    }
+  ],
+  "item": [
+    {
+      "name": "CDP over WebSocket",
+      "description": "Chrome DevTools Protocol endpoints exposed over WebSocket.",
+      "item": [
+        {
+          "name": "Local CDP WebSocket Endpoint (lightpanda serve)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "ws://127.0.0.1:9222",
+              "protocol": "ws",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "9222"
+            },
+            "description": "Local Lightpanda CDP server started with `lightpanda serve --host 127.0.0.1 --port 9222`. Connect Puppeteer with browserWSEndpoint, or Playwright/chromedp via connectOverCDP. CDP commands/results/events are exchanged as JSON over this single WebSocket connection (not HTTP)."
+          },
+          "response": []
+        },
+        {
+          "name": "Lightpanda Cloud CDP WebSocket Endpoint",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "wss://euwest.cloud.lightpanda.io/ws?token={{token}}",
+              "protocol": "wss",
+              "host": [
+                "euwest",
+                "cloud",
+                "lightpanda",
+                "io"
+              ],
+              "path": [
+                "ws"
+              ],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "description": "Lightpanda Cloud access token."
+                }
+              ]
+            },
+            "description": "Lightpanda Cloud managed CDP endpoint over secure WebSocket. Use a regional host (euwest / uswest) and append ?token=YOUR_TOKEN. Optional query params: browser=lightpanda|chrome, proxy. Connect with the same Puppeteer/Playwright/chromedp CDP tooling."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
