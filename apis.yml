@@ -90,6 +90,8 @@ apis:
     browser with LLM instructions. Distributed via one-line installer, Docker
     images, and nightly Linux/macOS binaries.
 common:
+- type: DomainSecurity
+  url: security/lightpanda-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/lightpanda-io
 - type: LinkedIn
@@ -104,6 +106,8 @@ common:
   url: rate-limits/lightpanda-rate-limits.yml
 - type: FinOps
   url: finops/lightpanda-finops.yml
+- url: https://lightpanda.io/blog
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
