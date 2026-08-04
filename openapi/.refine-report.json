@@ -1,0 +1,14 @@
+{
+  "provider": "lightpanda",
+  "sources": [
+    "lightpanda-openapi.yml"
+  ],
+  "outputs": [],
+  "archived": [
+    "archived lightpanda-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
