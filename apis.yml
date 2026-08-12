@@ -50,7 +50,7 @@ apis:
     type: GitHub
   - url: asyncapi/lightpanda-asyncapi.yml
     type: AsyncAPI
-  - url: openapi/lightpanda-openapi.yml
+  - url: openapi/_original/lightpanda-openapi.yml
     type: OpenAPI
   description: Lightpanda's primary programmable interface. The browser runs as a
     CDP server (`lightpanda serve`) and exposes the Chrome DevTools Protocol over a
