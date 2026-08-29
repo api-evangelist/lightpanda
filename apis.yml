@@ -8,6 +8,17 @@ description: Lightpanda is an open-source headless browser built from scratch in
   making it a drop-in target for Puppeteer, Playwright, and chromedp clients. It ships
   as an open-source binary/CLI (AGPL-3.0) and as Lightpanda Cloud, a managed CDP
   browser service.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: unknown
