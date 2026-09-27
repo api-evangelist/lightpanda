@@ -10,14 +10,18 @@ description: Lightpanda is an open-source headless browser built from scratch in
   browser service.
 deliveryModel:
   model: saas
-  open_source: false
+  license_evidence:
+    not_product:
+    - lightpanda-io/browser
+  open_source: unknown
   commercial: true
   callable_host: false
   label: Hosted service · you call their endpoint
-  confidence: medium
+  confidence: low
   source:
   - pricing
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -39,6 +43,7 @@ tags:
 - WebSocket
 - AI Agents
 - Web Scraping
+- Real-Time
 created: '2026-06-20'
 modified: '2026-06-20'
 specificationVersion: '0.23'
