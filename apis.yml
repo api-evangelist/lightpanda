@@ -39,11 +39,11 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/lightpanda
 tags:
 - Headless Browser
 - Browser Automation
-- CDP
 - WebSocket
 - AI Agents
 - Web Scraping
 - Real-Time
+- Chrome DevTools Protocol
 created: '2026-06-20'
 modified: '2026-06-20'
 specificationVersion: '0.23'
@@ -144,3 +144,5 @@ common:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-tags-removed:
+- CDP
