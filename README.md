@@ -1,4 +1,4 @@
-# Lightpanda (lightpanda)
+# Lightpanda
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,96 +66,128 @@
 
 Lightpanda is an open-source headless browser built from scratch in Zig for AI agents and large-scale automation. It is not a REST API; its programmable interface is the Chrome DevTools Protocol (CDP) exposed over a WebSocket endpoint, making it a drop-in target for Puppeteer, Playwright, and chromedp clients. It ships as an open-source binary/CLI (AGPL-3.0) and as Lightpanda Cloud, a managed CDP browser service.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/lightpanda/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/lightpanda/refs/heads/main/apis.yml)
+**Areas:** Headless Browser · Browser Automation · WebSocket · AI Agents · Web Scraping · Real-Time · Chrome DevTools Protocol
 
-## Tags
+## Lightpanda on APIs.io
 
-- Headless Browser
-- Browser Automation
-- CDP
-- WebSocket
-- AI Agents
-- Web Scraping
+Everything profiled for Lightpanda is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/lightpanda/](https://apis.io/providers/lightpanda/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (3)
 
-- **Created:** 2026-06-20
-- **Modified:** 2026-06-20
+- [Lightpanda CDP WebSocket Interface](https://apis.io/apis/lightpanda/lightpanda-cdp-websocket-interface/) — Lightpanda's primary programmable interface. The browser runs as a CDP server (`lightpanda serve`) and exposes the Chrome DevTools Protocol over a WebSocket…
+- [Lightpanda Cloud](https://apis.io/apis/lightpanda/lightpanda-cloud/) — Managed, hosted CDP browser endpoints reached over secure WebSocket (e.g. `wss://euwest.cloud.lightpanda.io/ws`, `wss://uswest.cloud.lightpanda.io/ws`).…
+- [Lightpanda CLI / Binary](https://apis.io/apis/lightpanda/lightpanda-cli-binary/) — The open-source command-line binary (AGPL-3.0, written in Zig). `lightpanda serve` starts the CDP-over-WebSocket server; `lightpanda fetch` retrieves and…
 
-## APIs
+### Published properties
 
-### Lightpanda CDP WebSocket Interface
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Lightpanda's primary programmable interface. The browser runs as a CDP server (`lightpanda serve`) and exposes the Chrome DevTools Protocol over a WebSocket endpoint (default `ws://127.0.0.1:9222`). CDP is a bidirectional JSON-RPC wire protocol over WebSocket - not a REST API. Existing Puppeteer, Playwright, and chromedp scripts connect by pointing `browserWSEndpoint` / `connectOverCDP` at this endpoint instead of Chrome.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://lightpanda.io/docs](https://lightpanda.io/docs)
-- **Base URL:** `ws://127.0.0.1:9222`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Lightpanda CDP over WebSocket](https://apis.io/asyncapis/lightpanda/lightpanda-asyncapi/)
 
-- CDP
-- WebSocket
-- Browser Automation
-- Puppeteer
-- Playwright
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://lightpanda.io/docs)
-- [GitHub](https://github.com/lightpanda-io/browser)
-- [AsyncAPI](asyncapi/lightpanda-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [OpenAPI](openapi/lightpanda-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [/cdp](https://apis.io/channels/lightpanda/cdp/)
 
-### Lightpanda Cloud
+#### Collections (1)
 
-Managed, hosted CDP browser endpoints reached over secure WebSocket (e.g. `wss://euwest.cloud.lightpanda.io/ws`, `wss://uswest.cloud.lightpanda.io/ws`). Authentication is a `token` query-string parameter; query parameters such as `browser=lightpanda|chrome` and `proxy` select the browser engine and egress. Clients connect with the same Puppeteer/Playwright/chromedp CDP tooling. Cloud access is request-based; usage pricing is not publicly reconciled.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://lightpanda.io/docs/cloud-offer/tools/cdp](https://lightpanda.io/docs/cloud-offer/tools/cdp)
-- **Base URL:** `wss://cloud.lightpanda.io/ws`
+- [Lightpanda](https://apis.io/collections/lightpanda/open-lightpanda/)
 
-#### Tags
+#### Governance rules (1)
 
-- Cloud
-- Managed Browser
-- CDP
-- WebSocket
+Spectral rulesets for the provider's contracts.
 
-#### Properties
+- [Lightpanda — asyncapi rules](https://apis.io/rules/lightpanda/lightpanda-asyncapi-spectral-rules/)
 
-- [Documentation](https://lightpanda.io/docs/cloud-offer/tools/cdp)
-- [Website](https://lightpanda.io)
-- [AsyncAPI](asyncapi/lightpanda-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+#### Security (1)
 
-### Lightpanda CLI / Binary
+Authentication, trust centre, and vulnerability disclosure.
 
-The open-source command-line binary (AGPL-3.0, written in Zig). `lightpanda serve` starts the CDP-over-WebSocket server; `lightpanda fetch` retrieves and dumps a URL as HTML or markdown; `lightpanda agent` drives the browser with LLM instructions. Distributed via one-line installer, Docker images, and nightly Linux/macOS binaries.
+- [Lightpanda Domain Security](https://apis.io/security/lightpanda/lightpanda-domain-security/)
 
-- **Human URL:** [https://github.com/lightpanda-io/browser](https://github.com/lightpanda-io/browser)
-- **Base URL:** `https://github.com/lightpanda-io/browser`
+#### Plans and pricing (1)
 
-#### Tags
+Published plans, tiers and prices.
 
-- CLI
-- Binary
-- Fetch
-- Agent
+- [Lightpanda Plans Pricing](https://apis.io/plans/lightpanda/lightpanda-plans-pricing/)
 
-#### Properties
+#### Rate limits (1)
 
-- [Documentation](https://lightpanda.io/docs)
-- [GitHub](https://github.com/lightpanda-io/browser)
+Published request limits.
 
-## Common Properties
+- [Lightpanda Rate Limits](https://apis.io/rate-limits/lightpanda/lightpanda-rate-limits/)
 
-- [GitHub Organization](https://github.com/lightpanda-io)
-- [LinkedIn](https://www.linkedin.com/company/lightpanda)
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Lightpanda Finops](https://apis.io/finops/lightpanda/lightpanda-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://lightpanda.io)
 - [Documentation](https://lightpanda.io/docs)
-- [Plans](plans/lightpanda-plans-pricing.yml)
-- [Rate Limits](rate-limits/lightpanda-rate-limits.yml)
-- [Fin Ops](finops/lightpanda-finops.yml)
+- [Blog](https://lightpanda.io/blog)
+- [GitHub](https://github.com/lightpanda-io)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 20.7** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 36.3 |
+| Contract governance | 13.6 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 11.9 |
+| Access clarity | 5.3 |
+
+**Agent readiness 14.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/lightpanda/](https://apis.io/providers/lightpanda/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Lightpanda: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/lightpanda/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
